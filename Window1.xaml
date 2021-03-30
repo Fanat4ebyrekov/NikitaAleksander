@@ -26,6 +26,8 @@
                    FontSize="50"
                    Grid.ColumnSpan="2"
                    Text=""
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
             />
         <Button Grid.Row="1"
                 Grid.ColumnSpan="2"

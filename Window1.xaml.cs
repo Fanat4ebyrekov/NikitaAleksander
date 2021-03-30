@@ -23,11 +23,10 @@ namespace NikitaAleksander
         {
             InitializeComponent();
         }
-        public Window1(string txtLogin)
+        public Window1(string txtLogin1)
         {
             InitializeComponent();
-            Privetstvie.Text = "Привет" + txtLogin;
-
+            Privetstvie.Text = "Привет " + txtLogin1;
 
         }
 

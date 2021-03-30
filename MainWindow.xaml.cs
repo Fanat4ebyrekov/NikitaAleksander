@@ -21,8 +21,24 @@ namespace NikitaAleksander
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string userLogin { get; } = "SPAWN";
-        public string userPass { get; } = "12345";
+        public class Person
+        {
+            public string Login { get; set; }
+            public string Pass { get; set; }
+            public string Id { get; set; }
+            public string Name { get; set; }
+
+        }
+
+
+
+
+
+
+
+        List<Person> peopleList = new List<Person>();
+        string path = @"C:\Users\USER\Desktop\Login and Password\note.txt";
+        
 
         public MainWindow()
         {
@@ -33,8 +49,17 @@ namespace NikitaAleksander
             Kapcha.Visibility = Visibility.Hidden;
             kartinka.Visibility = Visibility.Hidden;
             Captcha();
-            string path = @"C:\Users\USER\Desktop\Login and Password\note.txt";
-            
+
+            peopleList.Add(new Person 
+            { Login = "SPAWN", Pass = "12345", Id = "1", Name = "Никита Симонов" });
+            peopleList.Add(new Person 
+            { Login = "Distrotion", Pass = "123456", Id = "2", Name = "Кирилл Воробьев" });
+            peopleList.Add(new Person 
+            { Login = "Abigor", Pass = "24242", Id = "3", Name = "Александер Усачев" });
+            peopleList.Add(new Person 
+            { Login = "Fokker", Pass = "2281448", Id = "4", Name = "Алексей Римский" });
+            peopleList.Add(new Person 
+            { Login = "Nexxis", Pass = "4444", Id = "5", Name = "Влад Фед" });
 
             using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
             {
@@ -50,18 +75,18 @@ namespace NikitaAleksander
 
         }
 
-        public void swBlocknot()
+        public void Blocnotic()
         {
-            string path = @"C:\Users\USER\Desktop\Login and Password\note.txt";
+          
 
             using (StreamWriter sw = new StreamWriter(path, true))
             {
                 if (Save.IsChecked == true)
                 {
-                    sw.WriteLine();
                     sw.WriteLine(txtLogin.Text);
+                    sw.WriteLine(" ");
                     sw.WriteLine(Password.Text);
-                    
+                    sw.Close();
                 }
             }
         }
@@ -134,28 +159,31 @@ namespace NikitaAleksander
 
         private void Vxod_Click(object sender, RoutedEventArgs e)
         {
-            swBlocknot();
+            Blocnotic();
 
-            if ((txtLogin.Text == userLogin) && (Password.Text == userPass))
+            Person user = peopleList.Where(p => p.Login == this.txtLogin.Text && p.Pass == this.Password.Text).FirstOrDefault();
+
+            if (user != null)
             {
                 
 
-                var txtlogin = Convert.ToString(txtLogin.Text);
+                var login = Convert.ToString(txtLogin.Text);
                 
-                Window1 wnd1 = new Window1(txtLogin.ToString());
+                Window1 wnd1 = new Window1(login.ToString());
                 this.Hide();
                 wnd1.ShowDialog();
                 this.Show();
             }
             else
             {
+                InitializeComponent();
                 MessageBox.Show("Введен неправильный логин или пароль");
                 tbKapcha.Visibility = Visibility.Visible;
                 Vvod.Visibility = Visibility.Visible;
                 Knopka.Visibility = Visibility.Visible;
                 Kapcha.Visibility = Visibility.Visible;
                 kartinka.Visibility = Visibility.Visible;
-                if ((txtLogin.Text == userLogin) && (Password.Text == userPass) && (Vvod.Text == Kapcha.Text))
+                if (user != null)
                 {
                     var login = Convert.ToString(txtLogin.Text);
 
@@ -163,6 +191,11 @@ namespace NikitaAleksander
                     Window1 next = new Window1(login.ToString());
                     next.ShowDialog();
                     this.Show();
+                }
+                else
+                {
+                    Vvod.Clear();
+                    Captcha();
                 }
             }
             
